@@ -2,6 +2,9 @@
 
 App::uses('AppModel', 'Model');
 
+/**
+ * Modelo que representa os Níveis de Usuários presentes no sistema
+ */
 public class Nivel extends AppModel {
 
   public $validate = array(
