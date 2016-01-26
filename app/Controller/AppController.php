@@ -31,4 +31,33 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	
+	/**
+	 * Define o título da página para cada action
+	 * @param string $title
+	 */
+	public function setTitle($title = '') {
+		$this->set('title_for_layout', $title);
+	}
+	
+	/**
+	 * Separa os termos da pesquisa realizada por meio do helper searchBox.
+	 * Inclui os termos nas conditions da paginação.
+	 * Ativa o botão de limpar a pesquisa.
+	 * @param string $term
+	 * @param array $fields
+	 */
+	protected function termOfSearch($term = null, $fields = array()) {
+		if ($term != null && !empty($term)) {
+			$terms = explode(" ", $term);
+			foreach ($terms as $value) {
+				$conditions = array();
+				foreach ($fields as $field) {
+					$conditions['OR'][] = array($field . ' LIKE' => "%$value%");
+				}
+				$this->paginate['conditions'][] = $conditions;
+			}
+			$this->set('activeClear', true);
+		}
+	}
 }
