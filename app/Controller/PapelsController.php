@@ -1,35 +1,33 @@
 <?php
-
 App::uses('AppController', 'Controller');
 
 /**
- * Controlador dos Níveis de Usuários
+ * Controlador dos Papeis
  * @author Robertino
  *
  */
-class NivelsController extends AppController {
-	
-	public $uses = array('Nivel');
+class PapelsController extends AppController {
+	public $uses = array('Papel');
 	public $helpers = array('SearchBox');
 	public $components = array('Session', 'Crud');
 	public $paginate = array();
-
+	
 	/**
-	 * Exibe a listagem de Níveis de Acesso
+	 * Exibe a listagem de Papeis
 	 */
 	public function index() {
-		$this->setTitle(__('Níveis de Acesso'));
+		$this->setTitle(__('Papéis'));
 		$this->Session->write('urlBack', $this->request->here());
-		$this->paginate = $this->Nivel->optionsPaginate();
-		
+		$this->paginate = $this->Papel->optionsPaginate();
+	
 		$query = null;
 		if (isset($this->params->query['query'])) {
 			$query = $this->params->query['query'];
-			$this->termOfSearch($query, array('Nivel.titulo'));
+			$this->termOfSearch($query, array('Papel.titulo'));
 		}
 		$this->set('query', $query);
-		
-		$records = $this->paginate('Nivel');
+	
+		$records = $this->paginate('Papel');
 		$this->set('records', $records);
 	}
 	
@@ -45,7 +43,7 @@ class NivelsController extends AppController {
 	 * Salva os dados submetido pelo formulário de inclusão/alteração
 	 */
 	public function save() {
-		$this->Crud->saveData($this->Nivel, $this->request->data);
+		$this->Crud->saveData($this->Papel, $this->request->data);
 	}
 	
 	/**
@@ -55,7 +53,7 @@ class NivelsController extends AppController {
 	public function update($id = null) {
 		$this->Session->write('urlBack', $this->referer());
 		$this->setTitle(__('Nível de acesso'));
-		$this->Crud->loadData($this->Nivel, $id);
+		$this->Crud->loadData($this->Papel, $id);
 	}
 	
 	/**
@@ -63,16 +61,13 @@ class NivelsController extends AppController {
 	 * @param integer $id
 	 */
 	public function delete($id = null) {
-		$this->Crud->deleteData($this->Nivel, $id);
+		$this->Crud->deleteData($this->Papel, $id);
 	}
 	
 	/**
 	 * Realiza a exclusão de varios registros simultaneamente.
 	 */
 	public function deleteMany() {
-		$this->Crud->deleteMany($this->Nivel, $this->request->data);
+		$this->Crud->deleteMany($this->Papel, $this->request->data);
 	}
-	
-	
-
 }

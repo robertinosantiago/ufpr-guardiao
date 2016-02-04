@@ -91,4 +91,7 @@ div.required > label:after {
     padding: 0 30px;
     border-left: 1px solid #e7e7e7;
   }
+  .adiciona-papel .input-group-btn, .adiciona-nivel .input-group-btn  {
+  	vertical-align: bottom; 
+  }
 }

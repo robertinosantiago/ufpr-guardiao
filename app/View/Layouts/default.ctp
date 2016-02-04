@@ -68,8 +68,11 @@
 								<li class="second-level" id="li-nivel">
 									<a href="<?php echo $this->Html->url(array('controller' => 'Nivels', 'action' => 'index')); ?>"><?php echo __('Níveis'); ?></a>
 								</li>
-								<li class="second-level">
-									<a href="morris.html">Morris.js Charts</a>
+								<li class="second-level" id="li-papel">
+									<a href="<?php echo $this->Html->url(array('controller' => 'Papels', 'action' => 'index')); ?>"><?php echo __('Papéis'); ?></a>
+								</li>
+								<li class="second-level" id="li-sistema">
+									<a href="<?php echo $this->Html->url(array('controller' => 'Sistemas', 'action' => 'index')); ?>"><?php echo __('Sistemas'); ?></a>
 								</li>
 							</ul>
 							<!-- /.nav-second-level -->
