@@ -9,7 +9,7 @@ App::uses('AppController', 'Controller');
  */
 class SistemasController extends AppController {
 	
-	public $uses = array('Sistema', 'Papel', 'PapelSistema', 'Nivel', 'NivelSistema');
+	public $uses = array('Sistema', 'Papel', 'PapelSistema', 'Nivel', 'NivelSistema', 'Usuario', 'NivelPapelSistemaUsuario');
 	public $helpers = array('SearchBox');
 	public $components = array('Session', 'Crud');
 	public $paginate = array();
@@ -78,6 +78,7 @@ class SistemasController extends AppController {
 	 * @param integer $id
 	 */
 	public function status($id = null) {
+		$this->Session->write('urlBack', $this->referer());
 		$this->Crud->updateStatus($this->Sistema, $id);
 	}
 	
@@ -87,12 +88,12 @@ class SistemasController extends AppController {
 	 * @throws NotFoundException
 	 */
 	public function papeis($sistema_id = NULL) {
+		$this->Session->write('urlBack', $this->referer());
+		
 		if (!$this->Sistema->exists($sistema_id)) {
 			throw new NotFoundException(__('Não foi possível localizar este registro'));
 		}
 		
-		$this->Session->write('urlBack', $this->referer());
-
 		if ($this->request->is('post')) {
 			$sistema = $this->Sistema->buscarPorId($sistema_id);
 			$papeis = $this->Papel->listarTodos();
@@ -158,11 +159,11 @@ class SistemasController extends AppController {
 	 * @throws NotFoundException
 	 */
 	public function niveis($sistema_id = null) {
+		$this->Session->write('urlBack', $this->referer());
+		
 		if (!$this->Sistema->exists($sistema_id)) {
 			throw new NotFoundException(__('Não foi possível localizar este registro'));
 		}
-		
-		$this->Session->write('urlBack', $this->referer());
 		
 		if ($this->request->is('post')) {
 			$sistema = $this->Sistema->buscarPorId($sistema_id);
@@ -220,6 +221,35 @@ class SistemasController extends AppController {
 				$return[$key] = $value;
 			}
 			echo json_encode($return);
+		}
+	}
+	
+	/**
+	 * Gerencia os usuários 
+	 * @param unknown $sistema_id
+	 * @throws NotFoundException
+	 */
+	public function usuarios($sistema_id = NULL) {
+		$this->Session->write('urlBack', $this->referer());
+		
+		if (!$this->Sistema->exists($sistema_id)) {
+			throw new NotFoundException(__('Não foi possível localizar este registro'));
+		}
+		
+		if ($this->request->is('post')) {
+			$sistema = $this->Sistema->buscarPorId($sistema_id);
+			$usuarios = $this->Usuario->listarTodos();
+			$niveis = $this->Nivel->listarPorSistema($sistema['Sistema']['id']);
+			$papeis = $this->Papel->listarPorSistema($sistema['Sistema']['id']);
+			$usuarios_sistema = $this->NivelPapelSistemaUsuario->listaUsuarios(key($niveis), key($papeis), $sistema['Sistema']['id']);
+			
+			$this->set('sistema', $sistema);
+			$this->set('nivels', $niveis);
+			$this->set('papels', $papeis);
+			$this->set('usuarios', $usuarios);
+			$this->set('usuarios_sistema', $usuarios_sistema);
+		} else {
+			$this->redirect($this->Session->read('urlBack'));
 		}
 	}
 	

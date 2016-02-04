@@ -11,10 +11,15 @@
     ?>
 </div>
 
-<h3>
-	<?php echo $sistema['Sistema']['nome']; ?><br>
-	<small><?php echo $sistema['Sistema']['descricao']; ?></small>
-</h3>
+<div class="alert alert-info">
+	<h3>
+		<?php echo $sistema['Sistema']['nome']; ?><br>
+		<small><?php echo $sistema['Sistema']['descricao']; ?></small>
+	</h3>
+	<?php echo $this->Form->postLink("<i class='fa fa-users'></i> ".__('Usuários'), array('action' => 'usuarios', $sistema['Sistema']['id']), array('class' => 'btn btn-sm btn-info', 'title' => __('Usuários'), 'escape' => false)); ?>
+    <?php echo $this->Form->postLink("<i class='fa fa-shield'></i> ".__('Papéis'), array('action' => 'papeis', $sistema['Sistema']['id']), array('class' => 'btn btn-sm btn-success', 'title' => __('Papéis'), 'escape' => false)); ?>
+</div>
+
 
 <div class="adiciona-nivel">
 	<?php echo $this->Form->create('Sistema'); ?>

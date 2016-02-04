@@ -74,6 +74,9 @@
 								<li class="second-level" id="li-sistema">
 									<a href="<?php echo $this->Html->url(array('controller' => 'Sistemas', 'action' => 'index')); ?>"><?php echo __('Sistemas'); ?></a>
 								</li>
+								<li class="second-level" id="li-usuario">
+									<a href="<?php echo $this->Html->url(array('controller' => 'Usuarios', 'action' => 'index')); ?>"><?php echo __('Usuários'); ?></a>
+								</li>
 							</ul>
 							<!-- /.nav-second-level -->
 						</li>

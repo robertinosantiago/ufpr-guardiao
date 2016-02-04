@@ -1,4 +1,4 @@
-var server = 'http://localhost/ufpr-guardiao';
+var server = location.protocol + '//' + location.host + '/ufpr-guardiao';
 
 $('#bt-adiciona-nivel').on('click', function() {
 	var sistema_id = $('#SistemaId').val();
