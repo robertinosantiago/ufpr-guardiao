@@ -4,6 +4,8 @@ App::uses ( 'HmacPasswordHasher', 'Controller/Component/Auth' );
 
 class Usuario extends AppModel {
 	
+	public $hasMany = array('NivelPapelSistemaUsuario');
+	
 	public $validate = array(
 			'nome' => array(
 					'rule' => 'notEmpty',

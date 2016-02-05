@@ -8,6 +8,8 @@ App::uses('AppModel', 'Model');
  *
  */
 class Nivel extends AppModel {
+	
+	public $hasMany = array('NivelSistema', 'NivelPapelSistemaUsuario');
 
   public $validate = array(
     'titulo' => array(

@@ -10,7 +10,7 @@ App::uses ( 'HmacPasswordHasher', 'Controller/Component/Auth' );
  */
 class Sistema extends AppModel {
 	
-	public $hasMany = array('PapelSistema');
+	public $hasMany = array('NivelSistema', 'PapelSistema', 'NivelPapelSistemaUsuario');
 	
 	public $validate = array (
 			'nome' => array (

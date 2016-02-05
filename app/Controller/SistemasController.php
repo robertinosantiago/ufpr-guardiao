@@ -122,11 +122,7 @@ class SistemasController extends AppController {
 			} catch (Exception $e) { }
 			
 			$dados = $this->Papel->listarPorSistema($sistema_id);
-			$return = array();
-			foreach ($dados as $key => $value) {
-				$return[$key] = $value;
-			}
-			echo json_encode($return);
+			$this->__disponibilizaJson($dados);
 		}
 	}
 	
@@ -145,11 +141,7 @@ class SistemasController extends AppController {
 			} catch (Exception $e) { }
 			
 			$dados = $this->Papel->listarPorSistema($sistema_id);
-			$return = array();
-			foreach ($dados as $key => $value) {
-				$return[$key] = $value;
-			}
-			echo json_encode($return);
+			$this->__disponibilizaJson($dados);
 		}
 	}
 	
@@ -193,11 +185,7 @@ class SistemasController extends AppController {
 			} catch (Exception $e) { }
 				
 			$dados = $this->Nivel->listarPorSistema($sistema_id);
-			$return = array();
-			foreach ($dados as $key => $value) {
-				$return[$key] = $value;
-			}
-			echo json_encode($return);
+			$this->__disponibilizaJson($dados);
 		}
 	}
 	
@@ -216,11 +204,7 @@ class SistemasController extends AppController {
 			} catch (Exception $e) { }
 				
 			$dados = $this->Nivel->listarPorSistema($sistema_id);
-			$return = array();
-			foreach ($dados as $key => $value) {
-				$return[$key] = $value;
-			}
-			echo json_encode($return);
+			$this->__disponibilizaJson($dados);
 		}
 	}
 	
@@ -251,6 +235,75 @@ class SistemasController extends AppController {
 		} else {
 			$this->redirect($this->Session->read('urlBack'));
 		}
+	}
+	
+	/**
+	 * Retorna a listagem de Usuários de um Sistema de acordo com o Nível de Acesso
+	 * e o Papel, por meio de requisição Ajax
+	 */
+	public function atualizaNivelPapelSistemaUsuario() {
+		if ($this->request->is('ajax')) {
+			$this->autoLayout = false;
+			$this->autoRender = false;
+			$nivel_id = $this->request->data['nivelId'];
+			$papel_id = $this->request->data['papelId'];
+			$sistema_id = $this->request->data['sistemaId'];
+		
+			$dados = $this->NivelPapelSistemaUsuario->listaUsuarios($nivel_id, $papel_id, $sistema_id);
+			$this->__disponibilizaJson($dados);
+		}
+	}
+	
+	/**
+	 * Associa Usuários a um Sistema de acordo com o Nível de Acesso
+	 * e o Papel, por meio de requisição Ajax
+	 */
+	public function adicionaNivelPapelSistemaUsuario() {
+		if ($this->request->is('ajax')) {
+			$this->autoLayout = false;
+			$this->autoRender = false;
+			$nivel_id = $this->request->data['nivelId'];
+			$papel_id = $this->request->data['papelId'];
+			$sistema_id = $this->request->data['sistemaId'];
+			$usuarios = $this->request->data['usuariosIds'];
+		
+			$this->NivelPapelSistemaUsuario->adicionaUsuarios($nivel_id, $papel_id, $sistema_id, $usuarios);
+			
+			$dados = $this->NivelPapelSistemaUsuario->listaUsuarios($nivel_id, $papel_id, $sistema_id);
+			$this->__disponibilizaJson($dados);
+		}
+	}
+	
+	/**
+	 * Remove a associação de Usuários a um Sistema de acordo com o Nível de Acesso
+	 * e o Papel, por meio de requisição Ajax
+	 */
+	public function removeNivelPapelSistemaUsuario() {
+		if ($this->request->is('ajax')) {
+			$this->autoLayout = false;
+			$this->autoRender = false;
+			$nivel_id = $this->request->data['nivelId'];
+			$papel_id = $this->request->data['papelId'];
+			$sistema_id = $this->request->data['sistemaId'];
+			$usuarios = $this->request->data['usuariosIds'];
+	
+			$this->NivelPapelSistemaUsuario->removeUsuarios($nivel_id, $papel_id, $sistema_id, $usuarios);
+				
+			$dados = $this->NivelPapelSistemaUsuario->listaUsuarios($nivel_id, $papel_id, $sistema_id);
+			$this->__disponibilizaJson($dados);
+		}
+	}
+	
+	/**
+	 * Manipula um array e transforma em JSON
+	 * @param array $dados
+	 */
+	private function __disponibilizaJson($dados) {
+		$return = array();
+		foreach ($dados as $key => $value) {
+			$return[$key] = $value;
+		}
+		echo json_encode($return);
 	}
 	
 

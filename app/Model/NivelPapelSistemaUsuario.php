@@ -3,6 +3,16 @@ App::uses('AppModel', 'Model');
 
 class NivelPapelSistemaUsuario extends AppModel {
 	
+	public $belongsTo = array('Nivel', 'Papel', 'Sistema', 'Usuario');
+	
+	/**
+	 * Retorna a listagem dos Usuários associados a um Sistema de acordo com o Nível
+	 * de Acesso e o Papel
+	 * @param integer $nivel_id
+	 * @param integer $papel_id
+	 * @param integer $sistema_id
+	 * @return array
+	 */
 	public function listaUsuarios($nivel_id, $papel_id, $sistema_id) {
 		$options = array(
 				'fields' => array(
@@ -29,5 +39,60 @@ class NivelPapelSistemaUsuario extends AppModel {
 		);
 		return $this->find('list', $options);
 	}
+	
+	/**
+	 * Adiciona Usuários a um Sistema de acordo com o Nível de Acesso e o Papel
+	 * @param integer $nivel_id
+	 * @param integer $papel_id
+	 * @param integer $sistema_id
+	 * @param array $usuarios
+	 */
+	public function adicionaUsuarios($nivel_id, $papel_id, $sistema_id, $usuarios) {
+		foreach ($usuarios as $usuario) {
+			$dados = array(
+					'NivelPapelSistemaUsuario' => array(
+							'nivel_id' => $nivel_id,
+							'papel_id' => $papel_id,
+							'sistema_id' => $sistema_id,
+							'usuario_id' => $usuario
+					)
+			);
+			try {
+				$this->saveAll($dados, array('validate' => 'first'));
+			} catch (Exception $e) {
+			}
+		}
+	}
+	
+	/**
+	 * Remove Usuários de um Sistema de acordo com o Nível de Acesso e o Papel
+	 * @param integer $nivel_id
+	 * @param integer $papel_id
+	 * @param integer $sistema_id
+	 * @param array $usuarios
+	 */
+	public function removeUsuarios($nivel_id, $papel_id, $sistema_id, $usuarios) {
+		foreach ($usuarios as $usuario) {
+			$options = array(
+					'fields' => array(
+							'NivelPapelSistemaUsuario.id'
+					),
+					'conditions' => array(
+							'papel_id' => $papel_id,
+							'nivel_id' => $nivel_id,
+							'sistema_id' => $sistema_id,
+							'usuario_id' => $usuario
+					),
+					'recursive' => -1
+			);
+			$dados = $this->find('first', $options);
+			try {
+				$this->delete($dados['NivelPapelSistemaUsuario']['id']);
+			} catch (Exception $e) {
+			}
+		}
+	}
+	
+	
 	
 }

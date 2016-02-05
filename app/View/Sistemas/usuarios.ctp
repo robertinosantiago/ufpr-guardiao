@@ -35,12 +35,12 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="botoes text-center">
-			<button class="btn btn-primary" id="bt-adicionar-usuario">
+			<button class="btn btn-primary" id="bt-adicionar-usuario" type="button">
 				<i class="fa fa-arrow-right"></i> <?php echo __('Adicionar') ;?>
 			</button>
 			<br>
 			<br>
-			<button class="btn btn-primary" id="bt-remover-usuario">
+			<button class="btn btn-primary" id="bt-remover-usuario" type="button">
 				<i class="fa fa-arrow-left"></i> <?php echo __('Remover') ;?>
 			</button>
 		</div>	
@@ -52,6 +52,7 @@
 		<?php echo $this->Form->input('NivelPapelSistemaUsuarios', array('label' => __('Usuários do sistema'), 'options' => $usuarios_sistema, 'size' => 15, 'multiple' => true, 'class' => 'form-control', 'div' => 'form-group')); ?>
 	</div>
 </div>
+<?php echo $this->Form->hidden('id', array('value' => $sistema['Sistema']['id'])); ?>
 <?php echo $this->Form->end(); ?>
 
 <?php $this->start('scripts'); ?>

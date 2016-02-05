@@ -8,7 +8,7 @@ App::uses ( 'AppModel', 'Model' );
  *        
  */
 class Papel extends AppModel {
-	public $hasMany = array('PapelSistema');
+	public $hasMany = array('PapelSistema', 'NivelPapelSistemaUsuario');
 	
 	public $validate = array (
 			'titulo' => array (
