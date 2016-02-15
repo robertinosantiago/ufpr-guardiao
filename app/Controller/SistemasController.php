@@ -225,7 +225,7 @@ class SistemasController extends AppController {
 			$usuarios = $this->Usuario->listarTodos();
 			$niveis = $this->Nivel->listarPorSistema($sistema['Sistema']['id']);
 			$papeis = $this->Papel->listarPorSistema($sistema['Sistema']['id']);
-			$usuarios_sistema = $this->NivelPapelSistemaUsuario->listaUsuarios(key($niveis), key($papeis), $sistema['Sistema']['id']);
+			$usuarios_sistema = array();//$this->NivelPapelSistemaUsuario->listaUsuarios(key($niveis), key($papeis), $sistema['Sistema']['id']);
 			
 			$this->set('sistema', $sistema);
 			$this->set('nivels', $niveis);

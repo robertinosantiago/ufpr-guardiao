@@ -1,5 +1,14 @@
 var server = location.protocol + '//' + location.host + '/ufpr-guardiao';
 
+$(document).ready(function(){
+	var nivel_id = $('#SistemaNivels').val();
+	var papel_id = $('#SistemaPapels').val();
+	var sistema_id = $('#SistemaId').val();
+	if (nivel_id && papel_id && sistema_id) {
+		atualizaListaUsuarios('atualizaNivelPapelSistemaUsuario', nivel_id, papel_id, sistema_id);
+	}
+});
+
 /**
  * Renderiza a listagem de usuários associados a Papéis,
  * Níveis de Acesso e Sistema
