@@ -1,5 +1,8 @@
 var server = location.protocol + '//' + location.host + '/ufpr-guardiao';
 
+/**
+ *  Atualiza a lista de usuários após o carregamento da pagina.
+ */
 $(document).ready(function(){
 	var nivel_id = $('#SistemaNivels').val();
 	var papel_id = $('#SistemaPapels').val();
@@ -33,6 +36,7 @@ function renderizaListagem(data) {
  * @param sistema_id
  */
 function atualizaListaUsuarios(url, nivel_id, papel_id, sistema_id) {
+	$('.loading').show();
 	$.ajax({
 		method: 'POST',
 		url: server + '/Sistemas/'+url,
@@ -50,7 +54,7 @@ function atualizaListaUsuarios(url, nivel_id, papel_id, sistema_id) {
 		alert('Não foi possível carregar a página');
 	})
 	.always(function(data){
-		
+		$('.loading').hide();
 	});
 }
 
@@ -64,6 +68,7 @@ function atualizaListaUsuarios(url, nivel_id, papel_id, sistema_id) {
  * @param usuarios
  */
 function manipulaUsuariosListagem(url, nivel_id, papel_id, sistema_id, usuarios) {
+	$('.loading').show();
 	$.ajax({
 		method: 'POST',
 		url: server + '/Sistemas/'+url,
@@ -82,7 +87,7 @@ function manipulaUsuariosListagem(url, nivel_id, papel_id, sistema_id, usuarios)
 		alert('Não foi possível carregar a página');
 	})
 	.always(function(data){
-		
+		$('.loading').hide();
 	});
 }
 

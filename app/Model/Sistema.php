@@ -53,7 +53,8 @@ class Sistema extends AppModel {
 				'fields' => array(
 						'Sistema.id',
 						'Sistema.nome',
-						'Sistema.descricao'
+						'Sistema.descricao',
+						'Sistema.hash'
 				),
 				'conditions' => array(
 						'Sistema.excluido' => 0,

@@ -91,6 +91,70 @@ class Usuario extends AppModel {
 	}
 	
 	/**
+	 * Verifica se os dados de acesso do usuário (email e senha) estão associados a um sistema.
+	 * Este método retorna um array com as informaçõe do usuário ou falso caso o dados sejam
+	 * inválidos
+	 * @param string $email
+	 * @param string $senha
+	 * @param string $sistema
+	 * @return array | boolean
+	 */
+	public function acessoSistema($email, $senha, $sistema) {
+		$hasher = new HmacPasswordHasher();
+		$options = array(
+				'fields' => array('Usuario.id', 'Usuario.nome', 'Usuario.email'),
+				'joins' => array(
+						array(
+								'table' => $this->tablePrefix . 'nivel_papel_sistema_usuarios',
+								'alias' => 'NivelPapelSistemaUsuario',
+								'type' => 'inner',
+								'conditions' => array('Usuario.id = NivelPapelSistemaUsuario.usuario_id')
+						),
+						array(
+								'table' => $this->tablePrefix . 'sistemas',
+								'alias' => 'Sistema',
+								'type' => 'inner',
+								'conditions' => array('Sistema.id = NivelPapelSistemaUsuario.sistema_id')
+						)
+				),
+				'conditions' => array(
+						'Usuario.email' => $email,
+						'Usuario.senha' => $hasher->hash($senha),
+						'Sistema.hash' => $sistema,
+						'Usuario.ativo' => TRUE,
+						'Usuario.excluido' => FALSE,
+						'Sistema.ativo' => TRUE,
+						'Sistema.excluido' => FALSE
+				),
+				'recursive' => -1
+		);
+		$usuario = $this->find('first', $options);
+		
+		if ($usuario) {
+			$papeis = $this->NivelPapelSistemaUsuario->listaPapeisPorHashSistema($usuario['Usuario']['id'], $sistema);
+			$niveis = $this->NivelPapelSistemaUsuario->listaNiveisPorHashSistema($usuario['Usuario']['id'], $sistema);
+			
+			foreach ($papeis as $papel) {
+				$dado['id'] = $papel['Papel']['id'];
+				$dado['titulo'] = $papel['Papel']['titulo'];
+				$usuario['Papel'][] = $dado;
+			}
+			
+			foreach ($niveis as $nivel) {
+				$dado['id'] = $nivel['Nivel']['id'];
+				$dado['titulo'] = $nivel['Nivel']['titulo'];
+				$usuario['Nivel'][] = $dado;
+			}
+			
+			return $usuario;
+		}
+		
+		return FALSE;
+		
+	}
+	
+	
+	/**
 	 * Encripta a senha quando um novo registro é inserido
 	 *
 	 * {@inheritDoc}

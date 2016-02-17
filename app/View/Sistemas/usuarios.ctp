@@ -14,7 +14,8 @@
 <div class="alert alert-info">
 	<h3>
 		<?php echo $sistema['Sistema']['nome']; ?><br>
-		<small><?php echo $sistema['Sistema']['descricao']; ?></small>
+		<small><?php echo $sistema['Sistema']['descricao']; ?></small><br>
+		<small><?php echo __('Hash'); ?>: <strong><?php echo $sistema['Sistema']['hash']; ?></strong> </small>
 	</h3>
 	<?php echo $this->Form->postLink("<i class='fa fa-shield'></i> ".__('Papéis'), array('action' => 'papeis', $sistema['Sistema']['id']), array('class' => 'btn btn-sm btn-success', 'title' => __('Papéis'), 'escape' => false)); ?>
     <?php echo $this->Form->postLink("<i class='fa fa-sitemap'></i> ".__('Níveis de acesso'), array('action' => 'niveis', $sistema['Sistema']['id']), array('class' => 'btn btn-sm btn-primary', 'title' => __('Papéis'), 'escape' => false)); ?>
@@ -58,5 +59,5 @@
 <?php $this->start('scripts'); ?>
     <?php echo $this->Html->script('usuarios'); ?>
 <?php $this->end(); ?>
-
+<div class="loading"></div>
 
